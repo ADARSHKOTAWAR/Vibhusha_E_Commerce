@@ -3,18 +3,21 @@ import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/frontend_assets/assets';
 import ProductItem from '../components/ProductItem';
 import Title from '../components/Title';
+import axios from 'axios';
+
 
 const Collection = () => {
-  const { products, search, showSearch } = useContext(ShopContext);
+  const { products, search, backendURL } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
-  const [category, setCategory] = useState([]);
+  const [allCategory, setAllCategory] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortOption, setSortOption] = useState('');
 
   const toggleCategory = (e) => {
     const value = e.target.value;
-    setCategory((prev) =>
+    setSelectedCategories((prev) =>
       prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
     );
   };
@@ -26,13 +29,26 @@ const Collection = () => {
     );
   };
 
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(backendURL + '/api/category/get');
+      setAllCategory(res.data.categories);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   // Apply filters, search and sort whenever inputs change
   useEffect(() => {
     let filtered = [...products];
 
     // Filter by category
-    if (category.length > 0) {
-      filtered = filtered.filter((item) => category.includes(item.category));
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter((item) => selectedCategories.includes(item.category));
     }
 
     // Filter by subcategory
@@ -55,7 +71,7 @@ const Collection = () => {
     }
 
     setFilterProducts(filtered);
-  }, [products, category, subCategory, sortOption, search]);
+  }, [products, allCategory, selectedCategories, subCategory, sortOption, search]);
 
   // Set initial filtered products
   useEffect(() => {
@@ -79,97 +95,71 @@ const Collection = () => {
         </p>
 
         {/* Category Filter */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${
-            showFilter ? '' : 'hidden'
-          } sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">CATEGORIES</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <label className="flex gap-2">
-              <input className="w-3" type="checkbox" value="Men" onChange={toggleCategory} /> Men
-            </label>
-            <label className="flex gap-2">
-              <input className="w-3" type="checkbox" value="Women" onChange={toggleCategory} /> Women
-            </label>
-            <label className="flex gap-2">
-              <input className="w-3" type="checkbox" value="Kids" onChange={toggleCategory} /> Kids
-            </label>
+        <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}>
+          <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
+          <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
+            {allCategory.map((cat, index) => (
+              <label key={index} className='flex gap-2'>
+                <input type="checkbox" className='w-3' value={cat.name} checked={selectedCategories.includes(cat.name)} onChange={toggleCategory} />
+                {cat.name}
+              </label>
+            ))}
           </div>
         </div>
 
         {/* Subcategory Filter */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 my-5 ${
-            showFilter ? '' : 'hidden'
-          } sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">TYPE</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <label className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value="Topwear"
-                onChange={toggleSubCategory}
-              />
-              Topwear
-            </label>
-            <label className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value="Bottomwears"
-                onChange={toggleSubCategory}
-              />
-              Bottomwears
-            </label>
-            <label className="flex gap-2">
-              <input
-                className="w-3"
-                type="checkbox"
-                value="Winterwear"
-                onChange={toggleSubCategory}
-              />
-              Winterwear
-            </label>
-          </div>
-        </div>
+        {/* <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
+            <p className='mb-3 text-sm font-medium'>TYPE</p>
+            <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
+              {
+                [...new Set(
+                  allCategory.map(catName => {
+                    const match = allCategory.find(c => c.name === catName);
+                    return match ? match.subCategory : [];
+                  })
+                  .flat()
+                )].map((sub, i) => (
+                  <label key={i} className='flex gap-2'><input type="checkbox" className='w-3' value={sub} checked={subCategory.includes(sub)} onChange={toggleSubCategory}/>{sub}</label>
+                ))
+              }
+            </div>
+        </div> */}
       </div>
+      <div>
+        {/* Product Listing */}
+        <div className="flex-1">
+          <div className="flex justify-between text-base sm:text-2xl mb-4">
+            <Title text1="ALL" text2="COLLECTIONS" />
+            <select
+              className="border-2 border-gray-300 text-sm px-2"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="">Sort by: Relevance</option>
+              <option value="low-high">Sort by: Low to High</option>
+              <option value="high-low">Sort by: High to Low</option>
+            </select>
+          </div>
 
-      {/* Product Listing */}
-      <div className="flex-1">
-        <div className="flex justify-between text-base sm:text-2xl mb-4">
-          <Title text1="ALL" text2="COLLECTIONS" />
-          <select
-            className="border-2 border-gray-300 text-sm px-2"
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="">Sort by: Relevance</option>
-            <option value="low-high">Sort by: Low to High</option>
-            <option value="high-low">Sort by: High to Low</option>
-          </select>
-        </div>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-          {filterProducts.length > 0 ? (
-            filterProducts.map((item) => (
-              item.publish ? 
-              <ProductItem
-                key={item._id}
-                id={item._id}
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                discount={item.discount}
-                MRP={item.MRP}
-              /> : ""
-            ))
-          ) : (
-            <p className="text-gray-500 col-span-full text-center">No products found</p>
-          )}
+          {/* Product Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 gap-y-6">
+            {filterProducts.length > 0 ? (
+              filterProducts.map((item) => (
+                item.publish ?
+                  <ProductItem
+                    key={item._id}
+                    id={item._id}
+                    name={item.name}
+                    price={item.price}
+                    image={item.image}
+                    discount={item.discount}
+                    MRP={item.MRP}
+                  /> : ""
+              ))
+            ) : (
+              <p className="text-gray-500 col-span-full text-center">No products found</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -177,4 +167,3 @@ const Collection = () => {
 };
 
 export default Collection;
- 
