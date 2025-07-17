@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { backendURL } from '../../../admin/src/App';
+import { assets } from '../assets/frontend_assets/assets';
 
 const ApplyCoupon = ({ cartItems, cartTotal, user, setDiscount, setAppliedCoupon, token, appliedCoupon, discount }) => {
 
@@ -66,13 +67,14 @@ const ApplyCoupon = ({ cartItems, cartTotal, user, setDiscount, setAppliedCoupon
   }, []);
 
   return (
-    <div className='my-4 border p-4 rounded-md shadow max-w-md'>
-      <h3 className='text-lg font-semibold mb-2'>Have a Coupon?</h3>
-      <div className='flex gap-2'>
+    <div className="w-full max-w-md mx-auto border border-gray-300 shadow-sm rounded-2xl p-5 bg-white">
+      <h3 className="text-xl font-semibold text-gray-800 mb-4">Have a Coupon?</h3>
+
+      <div className="flex gap-3">
         <input
           type="text"
-          className='flex-1 border rounded p-2'
-          placeholder='Enter coupon code'
+          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          placeholder="Enter coupon code"
           value={couponCode}
           onChange={e => setCouponCode(e.target.value)}
           disabled={!!appliedCoupon}
@@ -80,17 +82,23 @@ const ApplyCoupon = ({ cartItems, cartTotal, user, setDiscount, setAppliedCoupon
 
         <button
           onClick={handleApply}
-          type='button'
+          type="button"
           disabled={loading || appliedCoupon}
-          className='bg-black text-white px-4 py-2 rounded'
+          className={`px-5 py-2 rounded-lg font-medium transition-colors duration-200 ${loading || appliedCoupon
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-black text-white hover:bg-gray-900'
+            }`}
         >
           {loading ? 'Checking...' : 'Apply'}
         </button>
       </div>
 
       {appliedCoupon && (
-        <div className="mt-2 text-green-700 flex justify-between items-center">
-          <span>Applied Coupon: <b>{appliedCoupon.code}</b></span>
+        <div className="mt-4 px-3 py-2 bg-green-50 border border-green-300 rounded-lg flex justify-between items-center">
+          <span className="text-green-700 text-sm">
+            Applied Coupon: <b>{appliedCoupon.code}</b>
+          </span>
+
           <button
             onClick={() => {
               localStorage.removeItem("appliedCoupon");
@@ -100,13 +108,14 @@ const ApplyCoupon = ({ cartItems, cartTotal, user, setDiscount, setAppliedCoupon
               setCouponCode('');
               toast.info("Coupon removed");
             }}
-            className="ml-4 text-red-500 underline text-sm"
+            className="ml-4 text-red-600 underline text-sm"
           >
             Remove
           </button>
         </div>
       )}
     </div>
+
   );
 };
 

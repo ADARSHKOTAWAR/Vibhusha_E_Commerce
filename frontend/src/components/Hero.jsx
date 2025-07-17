@@ -1,27 +1,38 @@
 import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css'
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { assets } from '../assets/frontend_assets/assets'
 
 const Hero = () => {
+    const slides = [
+        assets.home1,
+        assets.home2,
+        assets.home3
+    ]
   return (
-    <div className='flex flex-col sm:flex-row border border-gray-400'>
-    
-        {/* Hero Left Side */}
-        <div className='w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0'>
-            <div className='text-[#414141]'>
-                <div className='flex items-center gap-2'>
-                    <p className='w-8 md:w-11 h-[2px] bg-[#414141]'></p>
-                    <p className='font-medium text-sm md:text-base'>OUR BESTSELLERS</p>
-                </div>
-                <h1 className='prata-regular text-3xl sm:py-3 lg:text-5xl leading-relaxed'>Latest Arrivals</h1>
-                <div className='flex items-center gap-2'>
-                    <p className='font-semibold text-sm md:text-base'>SHOP NOW</p>
-                    <p className='w-8 md:w-11 h-[2px] bg-[#414141]'></p>
-                </div>
-            </div>
-        </div>
-
-        {/* Hero Right Side */}
-        <img className='w-full sm:w-1/2' src={assets.hero_img} alt="" />
+    <div className="w-full">
+      <Swiper
+        modules={[Autoplay, Pagination, Navigation]}
+        loop={true}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        navigation={true}
+        spaceBetween={0}
+        className="w-full h-[600px]"
+      >
+        {slides.map((image, index) => (
+          <SwiperSlide key={index}>
+            <img
+              src={image}
+              alt={`slide-${index}`}
+              className="w-full h-[600px] object-cover"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   )
 }

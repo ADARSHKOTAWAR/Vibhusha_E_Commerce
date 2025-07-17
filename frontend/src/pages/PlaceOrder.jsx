@@ -117,7 +117,17 @@ const PlaceOrder = () => {
 
         <PublishedCoupons/>
 
-        <ApplyCoupon cartItems={cartItems} cartTotal={getCartAmount()} user={user} setDiscount={setDiscount} setAppliedCoupon={setAppliedCoupon} appliedCoupon={appliedCoupon} discount={discount}/>
+        <div className="mt-6">
+            <ApplyCoupon
+              cartItems={cartItems}
+              cartTotal={getCartAmount()}
+              user={user}
+              setDiscount={setDiscount}
+              setAppliedCoupon={setAppliedCoupon}
+              appliedCoupon={appliedCoupon}
+              discount={discount}
+            />
+          </div>
 
         <div className='mt-8 min-w-80'>
           <CartTotal discount={discount}/>
