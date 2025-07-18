@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useContext} from 'react';
 import axios from 'axios';
-import { backendURL } from '../../../admin/src/App';
+import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/frontend_assets/assets';
 
 const PublishedCouponsSlider = () => {
   const [coupons, setCoupons] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const {backendURL} = useContext(ShopContext);
 
   const fetchPublishedCoupons = async () => {
     try {

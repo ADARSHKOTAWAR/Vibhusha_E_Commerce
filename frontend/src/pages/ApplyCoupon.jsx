@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
-import { backendURL } from '../../../admin/src/App';
 import { assets } from '../assets/frontend_assets/assets';
 
 const ApplyCoupon = ({ cartItems, cartTotal, user, setDiscount, setAppliedCoupon, token, appliedCoupon, discount }) => {
 
   const [couponCode, setCouponCode] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { backendURL } = useContext(ShopContext);
 
   const handleApply = async () => {
     if (!couponCode.trim()) return toast.error('Enter a coupon code');
