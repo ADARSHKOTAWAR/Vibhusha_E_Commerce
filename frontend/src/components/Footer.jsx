@@ -29,7 +29,7 @@ const Footer = () => {
           <p className='text-xl font-medium mb-5'>GET IN TOUCH</p>
           <ul className='flex flex-col gap-1 text-gray-600'>
             <li>+91 9421785404</li>
-            <li>contact@foreveryou.com</li>
+            <li>contact@vibhusha.co.in</li>
           </ul>
         </div>
       </div>
