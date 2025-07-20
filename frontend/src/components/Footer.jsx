@@ -1,5 +1,6 @@
 import React from 'react';
 import { assets } from '../assets/frontend_assets/assets';
+import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
         <div>
           <img src={assets.logo} className='mb-5 w-40' alt="Logo" />
           <p className='w-full md:w-2/3 text-gray-600'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse repudiandae quo saepe ex voluptatum, est soluta ducimus nulla, veniam qui, officia molestias eius nihil veritatis itaque eligendi! Velit, earum voluptate.
+            Vibhusha offers a stunning collection of artificial jewelry, blending tradition with modern elegance. Our pieces are designed to enhance your beauty on every occasion.
           </p>
         </div>
 
@@ -17,10 +18,10 @@ const Footer = () => {
         <div>
           <p className='text-xl font-medium mb-5'>COMPANY</p>
           <ul className='flex flex-col gap-1 text-gray-600'>
-            <li>Home</li>
-            <li>About Us</li>
-            <li>Delivery</li>
-            <li>Privacy Policy</li>
+            <NavLink to='/'><li>Home</li></NavLink>
+            <NavLink to='/about'><li>About Us</li></NavLink>
+            <NavLink to='/collection'><li>Collection</li></NavLink>
+            <NavLink to='/contact'><li>Contact</li></NavLink>
           </ul>
         </div>
 

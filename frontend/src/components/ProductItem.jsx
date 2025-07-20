@@ -16,7 +16,7 @@ const ProductItem = ({ id, image, name, price, discount, MRP }) => {
 
           {/* Product Image */}
           <img
-            className="hover:scale-105 transition-transform duration-300 ease-in-out w-full h-[230px] object-contain rounded-xl"
+            className="hover:scale-105 transition-transform duration-300 ease-in-out w-full h-[210px] object-contain rounded-xl"
             src={image[0]}
             alt={name}
           />
