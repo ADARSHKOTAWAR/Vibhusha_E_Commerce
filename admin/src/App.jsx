@@ -9,6 +9,7 @@ import Login from './components/Login'
 import Category from './pages/Category'
 import Coupons from './pages/Coupons'
 import AddOfflineOrder from './pages/AddOfflineOrder'
+import AdminHeroImages from './pages/AdminHeroImages'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path='/category' element={<Category token={token}/>} />
                 <Route path='/coupon' element={<Coupons token={token}/>} />
                 <Route path='/offlineOrder' element={<AddOfflineOrder token={token}/>} />
+                <Route path='/addImage' element={<AdminHeroImages token={token}/>} />
               </Routes>
             </div>
           </div>
