@@ -192,6 +192,16 @@ const updateStatus = async (req, res) => {
 
 }
 
-export {placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, placeOfflineOrder};
+const removeOrder = async(req, res) => {
+    try {
+        await orderModel.findByIdAndDelete(req.body.id);
+        res.json({success: true, message:"Order Deleted"});
+    } catch (error) {
+        console.log(error);
+        res.json({success:false, message: error.message});
+    }
+}
+
+export {placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus, placeOfflineOrder, removeOrder};
 
 

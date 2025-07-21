@@ -9,6 +9,7 @@ import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import categoryRouter from './routes/categoryRoute.js';
 import couponRouter from './routes/couponRoute.js';
+import imageRouter from './routes/imageRoute.js';
 
 //App Config
 const app = express();
@@ -27,6 +28,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/coupon', couponRouter);
+app.use('/api/hero-images', imageRouter);
 
 app.get('/', (req, res)=>{
     res.send("API Working");
