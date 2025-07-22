@@ -38,7 +38,7 @@ const Footer = () => {
       {/* Footer Bottom Bar */}
       <hr className='my-6 border-gray-300' />
       <p className='text-sm text-center text-gray-500 pb-4'>
-        &copy; 2024 forever.com - All Rights Reserved.
+        &copy; www.vibhusha.co.in - All Rights Reserved.
       </p>
     </footer>
   );

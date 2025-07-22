@@ -11,7 +11,7 @@ const NewsLetterBox = () => {
     <div className='text-center px-4'>
       <p className='text-2xl font-medium text-gray-800'>Subscribe now & get 20% off</p>
       <p className='text-gray-400 mt-3'>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+        Unlock your sparkle: Discover new arrivals, exclusive offers, and style inspiration from Vibhusha!
       </p>
 
       <form 
